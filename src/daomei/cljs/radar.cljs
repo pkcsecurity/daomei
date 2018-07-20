@@ -39,33 +39,36 @@
    :pointStyle "triangle"
    :data (repeatedly 12 (fn [] (rand-int 11)))})
 
-(def random-radar-data
-  (for [i (range 0 1)]
+(defn random-radar-data []
+  (for [i (range 0 5)]
     (random-radar-item i)))
 
-(defn radar [data]
-    (r/create-class
-      {:component-did-mount
-       (fn [this]
-         (let [ctx (r/dom-node this)]
-           (js/Chart. ctx
-                      (clj->js
-                        {:type "radar"
-                         :options (clj->js 
-                                    {:scale {:gridLines {:display true}
-                                             :ticks {:min 0
-                                                     :max 10
-                                                     :stepSize 10
-                                                     :backdropColor "#fff"}
-                                             :angleLines {:color "#aaa"}
-                                             :pointLabels {:fontFamily "'Heiti SC'"
-                                                           :fontSize 16
-                                                           :fontColor "#333"}}
-                                     :legend {:position "bottom"
-                                              :labels {:fontSize 8}}})
-                         :data {:labels twelve-labels
-                                :datasets (clj->js data)}}))))
+(def radar-options
+  (clj->js 
+    {:scale {:gridLines {:display true}
+             :ticks {:min 0
+                     :max 10
+                     :stepSize 10
+                     :backdropColor "#fff"}
+             :angleLines {:color "#aaa"}
+             :pointLabels {:fontFamily "'Heiti SC'"
+                           :fontSize 16
+                           :fontColor "#333"}}
+     :legend {:position "bottom"
+              :labels {:fontSize 8}}}))
 
-       :reagent-render
-       (fn [data]
-         [:canvas])}))
+(defn radar [data]
+  (r/create-class
+    {:component-did-mount
+     (fn [this]
+       (let [ctx (r/dom-node this)]
+         (js/Chart. ctx
+                    (clj->js
+                      {:type "radar"
+                       :options radar-options 
+                       :data {:labels twelve-labels
+                              :datasets (clj->js data)}}))))
+
+     :reagent-render
+     (fn [data]
+       [:canvas])}))
