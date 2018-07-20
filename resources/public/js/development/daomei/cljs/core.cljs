@@ -19,14 +19,20 @@
         "Add"]])))
 
 (defn body []
-  [:div.fixed.top-0.left-0.right-0.bottom-0
-   [:p "React is running."]
-   [:div.max-width-4.mx-auto
-    #_[address-field]
-    #_[m/google-map]
-    [:div {:style {:height "800px"
-                   :width "800px"}}
-     [radar/radar radar/random-radar-data]]]])
+  (let [radar-data (atom (radar/random-radar-data))]
+    (fn []
+      [:div.fixed.top-0.left-0.right-0.bottom-0
+       [:div.max-width-4.mx-auto
+        [address-field]
+        [m/google-map]
+        [:div
+         [:button {:on-click (fn []
+                               (reset! radar-data 
+                                       (radar/random-radar-data)))}
+          "Update"]
+         [:div {:style {:height "800px"
+                        :width "800px"}}
+          ^{:key (str @radar-data)} [radar/radar @radar-data]]]]])))
 
 (defn -main []
   (r/render-component [body]
