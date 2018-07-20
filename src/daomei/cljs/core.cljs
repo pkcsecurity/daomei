@@ -19,7 +19,7 @@
         "Add"]])))
 
 (defn body []
-  (let [radar-data (atom (radar/random-radar-data))]
+  (let [radar-data (r/atom (radar/random-radar-data))]
     (fn []
       [:div.fixed.top-0.left-0.right-0.bottom-0
        [:div.max-width-4.mx-auto
