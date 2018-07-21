@@ -20,14 +20,12 @@
                     {:font-awesome-icon "fa-user-circle" :title "Manage" :new-page-state :manage}])
 
 (defn nav-body []
-  [:div.bg-sec.flex.items-center.justify-between {:style {:height "40px"}}
-   [:div.pl1
+  [:div.bg-sec.flex.items-center.justify-between {:style {:height "60px"}}
+   [:div.pl2
     {:on-click (fn [e]
                  (println "yo")
                  (swap! show-menu? not))}
-    [:i.fa.fa-bars.fa-lg.white]]
-   [:div.white.pr1
-    [:i.fa.fa-user-circle.fa-lg]]])
+    [:i.fa.fa-bars.fa-lg.white]]])
 
 (defn home-body [radar-data]
   [:div.max-width-4.mx-auto
@@ -42,12 +40,13 @@
 
 
 (defn menu-row [{:keys [font-awesome-icon title new-page-state]}]
-  [:div.flex.py3.white.pl1 {:style {:cursor :pointer}
-                            :on-click (fn [e]
-                                        (reset! model/page-state new-page-state)
-                                        (reset! show-menu? false))}
-   [:i {:class (str "fa " font-awesome-icon " fa-lg pr2")}]
-   [:div title]])
+  [:div.flex.items-center.py3.white.pl1 {:style {:cursor :pointer}
+                                         :on-click (fn [e]
+                                                    (reset! model/page-state new-page-state)
+                                                    (reset! show-menu? false))}
+   [:div.flex.justify-center.col-2
+    [:i {:class (str "fa " font-awesome-icon " fa-2x pr2")}]]
+   [:h4.col-10 title]])
 
 (defn menu-body []
   [:div.right-0.left-0.bottom-0.bg-black.flex.flex-column.bg-sec.p2.fixed {:style {:top "40px" :z-index 9999}}
