@@ -89,8 +89,9 @@
     (fn []
       [:div
        [:h3.sec.py3 "Generating new site..."]
-       [:div.flex.justify-center.sec
-        [:i.fa.fa-spinner.fa-4x.fa-spin]]
+       (when (< @progress 100)
+         [:div.flex.justify-center.sec
+        [:i.fa.fa-spinner.fa-4x.fa-spin]])
        (when (>= @progress 100)
          [:div
           [:h3.sec.py3 "Here's the address of your new site:"]

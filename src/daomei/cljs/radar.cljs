@@ -81,3 +81,28 @@
      :reagent-render
      (fn [data]
        [:canvas {:style {:height "300px" :width "300px"}}])}))
+
+(def small-radar-options
+  (clj->js
+    {:scale {:gridLines {:display false}
+             :ticks {:min 0
+                     :max 0
+                     :stepSize 10
+                     :backdropColor "#fff"}
+             :angleLines {:color "#aaa"}}
+     :legend {:display false}}))
+
+(defn small-radar [data]
+  (r/create-class
+    {:component-did-mount
+     (fn [this]
+       (let [ctx (r/dom-node this)]
+         (js/Chart. ctx
+           (clj->js
+             {:type "radar"
+              :options small-radar-options
+              :data {:datasets (clj->js data)}}))))
+
+     :reagent-render
+     (fn [data]
+       [:canvas {:style {:height "40px" :width "40px"}}])}))

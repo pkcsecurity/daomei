@@ -30,7 +30,7 @@
     [:i.fa.fa-bars.fa-lg.white]]
    [:img {:src "12_nav.png"
           :height "40px"
-          :on-click #(reset! model/page-state :admin-statistics)}]
+          :on-click #(reset! model/page-state :manage)}]
    [:div {:style {:width "20px"}}]])
 
 (defn home-body [radar-data]

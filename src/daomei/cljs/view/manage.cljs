@@ -31,7 +31,7 @@
     [:div.mt3
      [radar/radar [(radar/weighted-radar-item 0 (:health-weight (filter-user kw-name)))]]
      [:div.center.mt3
-      [:h1.sec "江泽民"]
+      [:h1.pri "江泽民"]
       [:h4.py1 (utils/kw->name @model/selected-profile)]
       [:h4 "济南，山东"]
       (when (:certified? (filter-user kw-name))
