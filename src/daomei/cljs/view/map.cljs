@@ -1,10 +1,9 @@
-(ns daomei.cljs.map
+(ns daomei.cljs.view.map
   (:require [reagent.core :as r]
-            [daomei.cljs.controller :as c]))
+            [daomei.cljs.controller :as c]
+            [daomei.cljs.components :as component]))
 
 (def map-obj (atom nil))
-
-(def map-style (atom nil))
 
 (defn google-map []
   (r/create-class
@@ -28,9 +27,6 @@
                  :height "400px"
                  :background-color :gray}}])}))
 
-(defn ^:export init-map []
-  )
-
 (defn add-pin [address]
   (let [gc (google.maps.Geocoder.)]
     (.geocode gc
@@ -45,15 +41,12 @@
   (let [value (r/atom "")]
     (fn []
       [:div
-       [:input
-        {:value @value
-         :on-change #(reset! value (.. % -target -value))}]
-       [:button
-        {:on-click #(add-pin @value)}
-        "Add"]])))
+       [component/input :value value :placeholder "Enter your city"]
+       [component/button "Add" #(add-pin @value)]])))
 
 
 (defn map-body []
   [:div
+    [component/body-title "See all your people"]
     [address-field]
     [google-map]])

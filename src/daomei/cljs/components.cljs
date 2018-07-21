@@ -3,7 +3,14 @@
             [daomei.cljs.utils :as utils]))
 
 (defn body-title [title]
-  [:h4.sec.pb3 title])
+  [:h3.sec.pb3 title])
+
+(defn leader [leader-name on-click]
+  [:div.flex.items-center.pb3.sec {:on-click on-click}
+   [:i.fa.fa-user-circle-o.fa-2x.px2]
+   [:div.flex.flex-column.justify-between
+    [:h5.pb1 leader-name]
+    [:h6.gray {:style {:font-weight 400}} leader-name]]])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Button component
