@@ -23,17 +23,28 @@
       {:status 400})))
 
 (defn up-fn [{{:keys [url name]} :params :as req}]
-  (println req)
   (let [{:keys [status]} (client/get url)]
     {:status status
      :body {:url url
             :name name
             :status status}}))
 
+(defonce points (atom []))
+
+(defn point-fn [{p :params}]
+  (swap! points conj p)
+  {:status 200})
+
+(defn get-point-fn [_]
+  {:status 200
+   :body @points})
+
 (r/defroutes routes
   (r/GET "/" [] index-response-fn)
   (r/POST "/application" [] start-app-fn)
   (r/POST "/up" [] up-fn)
+  (r/GET "/point" [] get-point-fn)
+  (r/POST "/point" [] point-fn)
   (route/resources "/")
   (route/not-found nil))
 

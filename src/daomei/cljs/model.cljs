@@ -1,15 +1,35 @@
 (ns daomei.cljs.model
   (:require [reagent.core :as r]))
 
-(def profile-certified-statuses {:jiang-wu (r/atom true)
-                                 :liao-zher (r/atom false)
-                                 :lao-zhiang (r/atom false)
-                                 :lao-zhu (r/atom true)
-                                 :lao-zhi (r/atom true)
-                                 :lao-fu-zi (r/atom true)
-                                 :zhu-ge-liang (r/atom true)})
-
-(def leader-names (r/atom ["Lao Zhi" "Lao Fu Zi" "Zhu Ge Liang"]))
+(def pastors (r/atom
+               [{:name :jiang-wu
+                 :certified? true
+                 :network :jiang-wu
+                 :health-weight 8}
+                {:name :pastor-li
+                 :certified? true
+                 :network :jiang-wu
+                 :health-weight 9}
+                {:name :lao-zhiang
+                 :certified? true
+                 :network :lao-zhiang
+                 :health-weight 8}
+                {:name :lao-zhu
+                 :certified? false
+                 :network :lao-zhiang
+                 :health-weight 2}
+                {:name :lao-zhi
+                 :certified? true
+                 :network :lao-zhiang
+                 :health-weight 4}
+                {:name :lao-fu-zi
+                 :certified? false
+                 :network :lao-zhiang
+                 :health-weight 5}
+                {:name :zhu-ge-liang
+                 :certified? false
+                 :network :lao-zhiang
+                 :health-weight 7}]))
 
 (def selected-profile (r/atom nil))
 

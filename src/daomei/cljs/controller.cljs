@@ -18,3 +18,7 @@
   (chan/go 
     (on-success
       (:body (chan/<! (http/get "map_style.json"))))))
+
+(defn get-points [on-success]
+  (chan/go
+    (on-success (:body (chan/<! (http/get "/point"))))))

@@ -30,6 +30,15 @@
    "会员制"
    "圣礼仪式"])
 
+(defn weighted-radar-item [i weight]
+  {:borderWidth 1
+   :label (str i)
+   :radius 1
+   :borderColor (array->border (nth colors i))
+   :backgroundColor (array->bg (nth colors i))
+   :pointStyle "triangle"
+   :data (repeatedly 12 (fn [] (+ weight (rand-int (- 11 weight)))))})
+
 (defn random-radar-item [i]
   {:borderWidth 1 
    :label (str i)

@@ -1,5 +1,6 @@
 (ns daomei.cljs.view.admin-stats-2
   (:require [daomei.cljs.components :as c]
+            [daomei.cljs.utils :as utils]
             [daomei.cljs.model :as m]
             [daomei.cljs.radar :as radar]))
 
@@ -8,5 +9,5 @@
    [c/body-title "Church Network Statistics"]
    [radar/radar (radar/random-radar-data)]
    [:h5.sec.pt3.pb2 "Recommended Leaders"]
-   (for [leader-name @m/leader-names]
-     ^{:key (str leader-name)} [c/leader leader-name])])
+   (for [pastor (take 3 (sort-by (comp (partial * -1) :health-weight) @m/pastors))]
+     ^{:key (str pastor)} [c/leader (utils/kw->name (:name pastor))])])
