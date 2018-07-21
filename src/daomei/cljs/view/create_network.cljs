@@ -52,16 +52,6 @@
      ^{:key (str theme-colors)} [theme-dom theme-colors selected-theme])
    [:div]])
 
-; these only add up to 95%: the last 5% should be done when there's data returned
-(def progress-steps [50 25 5 5 5 5])
-(def fibonacci (r/atom [1 1]))
-
-(defn progress-stuff [step-number]
-  (.setTimeout js/window (fn []
-                           (when (< @progress 95)
-                             (progress-stuff (+ 1 step-number))
-                             (reset! progress (+ @progress (nth progress-steps step-number))))) (* 2000 (+ 1 step-number))))
-
 (defn success! [url]
   (reset! progress 100)
   (reset! new-site-address url))
@@ -71,13 +61,7 @@
                                                             :url url}}))
             status (:status response)]
         (if (= 404 status)
-          (.setTimeout js/window (fn [e]
-                                   (let [[x y] (reverse @fibonacci)
-                                         next-fibonacci (+ x y)]
-                                     (swap! fibonacci #(conj % next-fibonacci))
-                                     (println @fibonacci)
-                                     (long-poll-for-url req)))
-            (* (last @fibonacci) 100))
+          (js/setTimeout (fn [e] (long-poll-for-url req)) 5000)
           (success! url)))))
 
 (defn create-button [domain language selected-theme]
@@ -87,11 +71,8 @@
      (controller/valid-domain? @domain 
                                @language 
                                @selected-theme
-                               (fn [res]
-                                 (js/setTimeout #(long-poll-for-url res)
-                                                60000))
-                               #(.error js/console %))
-     (js/setTimeout #(progress-stuff 0) 1000))
+                               long-poll-for-url
+                               #(.error js/console %)))
    :style {:width "100%"}])
 
 (defn create-network-dom [domain language selected-theme]
@@ -108,10 +89,8 @@
     (fn []
       [:div
        [:h3.sec.py3 "Generating new site..."]
-       [:div
-        [:div.bg-pri {:style {:width (str @progress "%")
-                              :height "20px"
-                              :transition "width .3s"}}]]
+       [:div.flex.justify-center.sec
+        [:i.fa.fa-spinner.fa-4x.fa-spin]]
        (when (>= @progress 100)
          [:div
           [:h3.sec.py3 "Here's the address of your new site:"]
@@ -128,7 +107,7 @@
               (.select (.getElementById js/document "newthing"))
               (.execCommand js/document "copy")
               (reset! copied? true)
-              (.setTimeout js/window #(reset! copied? false) 2000))
+              (js/setTimeout #(reset! copied? false) 2000))
             :style {:width "100px"}]]])])))
 
 (defn create-network-body []

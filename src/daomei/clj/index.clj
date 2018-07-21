@@ -60,7 +60,7 @@
               [:title "Daomei"]]
              [:body
               [:div#app "No react yet running."]
-              [:script {:src 
+              [:script {:src
                         (if (= "production" (System/getenv "RING_ENV"))
                           "/js/release/index.js"
                           "/js/development/index.js")}]
