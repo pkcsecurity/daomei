@@ -7,7 +7,7 @@
                  :network :jiang-wu
                  :health-weight 8}
                 {:name :pastor-li
-                 :certified? true
+                 :certified? false
                  :network :jiang-wu
                  :health-weight 9}
                 {:name :lao-zhiang
@@ -34,5 +34,7 @@
 (def selected-profile (r/atom nil))
 
 (def page-state (r/atom :manage))
+
+(def new-admin (r/atom nil))
 
 (def points (r/atom [{:lat "39.9042" :long "116.407396"}]))

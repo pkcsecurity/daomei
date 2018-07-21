@@ -2,7 +2,9 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [daomei.cljs.components :as c]
             [reagent.core :as r]
+            [daomei.cljs.model :as model]
             [cljs-http.client :as http]
+            [daomei.cljs.utils :as utils]
             [daomei.cljs.controller :as controller]
             [cljs.core.async :refer [<!]]))
 
@@ -75,9 +77,15 @@
                                #(.error js/console %)))
    :style {:width "100%"}])
 
+(defn new-admin-dom [name]
+  [:div.pb2
+   [:h5.sec.py2 "New Admin"]
+   [:div (if (clojure.string/blank? name) "No admin chosen yet!" name)]])
+
 (defn create-network-dom [domain language selected-theme]
   [:div.max-width-4.mx-auto
    [c/body-title "Create Network"]
+   [new-admin-dom (utils/kw->name @model/new-admin)]
    [choose-domain-dom domain]
    [select-language-dom language]
    [select-theme-dom selected-theme]

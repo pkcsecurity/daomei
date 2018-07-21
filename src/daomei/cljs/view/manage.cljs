@@ -35,9 +35,15 @@
       [:h4.py1 (utils/kw->name @model/selected-profile)]
       [:h4 "济南，山东"]
       (when (:certified? (filter-user kw-name))
-        [:div.flex.flex-wrap.items-center.pt4.justify-around
+        [:div
+         [:div.flex.flex-wrap.items-center.pt4.justify-around
          [:div.pr2 "Certified on: 08/08/18"]
-         [:img {:src "/certificate-svg.svg"}]])]]))
+         [:img {:src "/certificate-svg.svg"}]]
+         [c/button "Make Admin" (fn [e]
+                                  (reset! model/page-state :create-network)
+                                  (reset! model/new-admin kw-name))
+          :style {:width "100%"
+                  :margin-top "1em"}]])]]))
 
 (defn user-dom [{:keys [name certified? network] :as user}]
   [:div.flex.col-12
