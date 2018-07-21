@@ -3,10 +3,16 @@
             [daomei.cljs.controller :as c]
             [daomei.cljs.components :as component]))
 
-(defn add-pin [map-obj lat-lng]
-  (google.maps.Marker. #js
-                       {:position (clj->js lat-lng)
-                        :map map-obj}))
+(defn add-pin [map-obj {:keys [lat lng health] :as lat-lng}]
+  (println health)
+  (google.maps.Circle. #js {:strokeColor "#F34753"
+                            :strokeOpacity 0.9
+                            :strokeWeight 2
+                            :fillColor "#F34753"
+                            :fillOpacity 0.45
+                            :map map-obj
+                            :center (clj->js {:lat lat :lng lng})
+                            :radius (.sqrt js/Math (* health 1000000000))}))
 
 (def center #js {:lat 34.9862055
                  :lng 102.8387241})
@@ -42,9 +48,4 @@
 (defn map-body []
   [:div
     [:div.p2 [component/body-title "See all churches in your network"]]
-    [google-map]
-   #_[:div.flex.justify-around.items-center.p1
-    [:i.fa.fa-2x.fa-fast-forward.sec]
-    [:i.fa.fa-2x.fa-fast-forward.sec]
-    [:i.fa.fa-2x.fa-fast-forward.sec]
-    [:i.fa.fa-2x.fa-fast-forward.sec]]])
+    [google-map]])

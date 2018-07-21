@@ -29,16 +29,16 @@
             :name name
             :status status}}))
 
-(defonce points (atom [{:lat 39.9042 :lng 116.4074}
-                       {:lat 35.7448 :lng 96.4077}
-                       {:lat 31.4912 :lng 120.3119}
-                       {:lat 47.3499 :lng 130.2980}
-                       {:lat 30.5728 :lng 104.0668}
-                       {:lat 35.5810 :lng 116.9865}
-                       {:lat 22.3964 :lng 114.1095}]))
+(defonce points (atom [{:lat 39.9042 :lng 116.4074 :health 99}
+                       {:lat 35.7448 :lng 96.4077 :health 70}
+                       {:lat 31.4912 :lng 120.3119 :health 32}
+                       {:lat 47.3499 :lng 130.2980 :health 40}
+                       {:lat 30.5728 :lng 104.0668 :health 5}
+                       {:lat 35.5810 :lng 116.9865 :health 46}
+                       {:lat 22.3964 :lng 114.1095 :health 90}]))
 
 (defn point-fn [{p :params}]
-  (swap! points conj p)
+  (swap! points conj (assoc p :health 95))
   {:status 200})
 
 (defn get-point-fn [_]
