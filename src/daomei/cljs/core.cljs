@@ -12,6 +12,8 @@
 
 (enable-console-print!)
 
+(def nav-height "60px")
+
 (def show-menu? (r/atom false))
 
 (def menu-row-data [{:font-awesome-icon "fa-bar-chart" :title "Statistics" :new-page-state :admin-statistics}
@@ -20,7 +22,7 @@
                     {:font-awesome-icon "fa-user-circle" :title "Manage" :new-page-state :manage}])
 
 (defn nav-body []
-  [:div.bg-sec.flex.items-center.justify-between {:style {:height "60px"}}
+  [:div.bg-sec.flex.items-center.justify-between {:style {:height nav-height}}
    [:div.pl2
     {:on-click (fn [e]
                  (println "yo")
@@ -53,7 +55,7 @@
    [:h4.col-10 title]])
 
 (defn menu-body []
-  [:div.right-0.left-0.bottom-0.bg-black.flex.flex-column.bg-sec.p2.fixed {:style {:top "40px" :z-index 9999}}
+  [:div.right-0.left-0.bottom-0.bg-black.flex.flex-column.bg-sec.p2.fixed {:style {:top nav-height :z-index 9999}}
    (for [menu-item menu-row-data]
      ^{:key (str menu-item)} [menu-row menu-item])])
 
