@@ -9,4 +9,4 @@
    [radar/radar (radar/random-radar-data)]
    [:h5.sec.pt3.pb2 "Recommended Leaders"]
    (for [leader-name @m/leader-names]
-     ^{:key (str leader-name)} [c/leader leader-name nil])])
+     ^{:key (str leader-name)} [c/leader leader-name])])

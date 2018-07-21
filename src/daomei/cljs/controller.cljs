@@ -21,4 +21,4 @@
 
 (defn get-points [on-success]
   (chan/go
-    (on-success (chan/<! (http/get "/point")))))
+    (on-success (:body (chan/<! (http/get "/point"))))))

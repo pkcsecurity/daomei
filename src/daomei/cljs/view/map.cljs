@@ -5,7 +5,7 @@
 
 (defn add-pin [map-obj lat-lng]
   (google.maps.Marker. #js 
-                       {:position lat-lng
+                       {:position (clj->js lat-lng)
                         :map map-obj}))
 
 (def center #js {:lat 34.9862055
@@ -25,6 +25,7 @@
                                                   :styles (clj->js style)})]
                (c/get-points
                  (fn [lat-lngs]
+                   (.log js/console lat-lngs)
                    (doseq [l-l lat-lngs] 
                      (add-pin map-obj l-l)))))))))
          
@@ -36,13 +37,7 @@
                  :height "400px"
                  :background-color :gray}}])}))
 
-
-(defn map-body []
-  [:div
-   [google-map]])
-
-(defn ^:export init-map []
-  )
+(defn ^:export init-map [])
 
 (defn map-body []
   [:div
