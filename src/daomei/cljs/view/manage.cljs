@@ -47,7 +47,7 @@
 (defn network-dom [network]
   (let [network-name (utils/kw->name (:network (first network)))]
     (fn []
-      [:div.flex.flex-wrap.pb4
+      [:div.flex.flex-wrap.pb2
        [:h4.col-10.gray.pb2 (str network-name " Network")]
        [:div.col-2.gray.bold.pb2 "Certified?"]
        (for [user network]
