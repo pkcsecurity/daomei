@@ -48,7 +48,6 @@
        [component/button "Add" #(add-pin @value)
         :style {:padding-left "2em"}]])))
 
-
 (defn map-body []
   [:div
     [component/body-title "See all your people"]
