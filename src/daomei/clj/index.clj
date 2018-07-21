@@ -66,4 +66,4 @@
                           "/js/development/index.js")}]
               [:script {:async :async
                         :defer :defer
-                        :src "https://maps.googleapis.com/maps/api/js?key=AIzaSyCxFYjEyBPCEJt0UzSEjtduMWEZ1cmYikI&callback=daomei.cljs.map.init_map"}]]))
+                        :src "https://maps.googleapis.com/maps/api/js?key=AIzaSyCxFYjEyBPCEJt0UzSEjtduMWEZ1cmYikI&callback=daomei.cljs.view.map.init_map"}]]))

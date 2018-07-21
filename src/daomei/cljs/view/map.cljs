@@ -16,7 +16,7 @@
              (fn [style]
                (reset! map-obj
                  (google.maps.Map. node
-                   #js {:zoom 4
+                   #js {:zoom 3
                         "gestureHandling" "cooperative"
                         :center center
                         :styles (clj->js style)})))))))
@@ -26,6 +26,9 @@
         {:style {:width "100%"
                  :height "400px"
                  :background-color :gray}}])}))
+
+(defn ^:export init-map []
+  )
 
 (defn add-pin [address]
   (let [gc (google.maps.Geocoder.)]
@@ -42,7 +45,8 @@
     (fn []
       [:div
        [component/input :value value :placeholder "Enter your city"]
-       [component/button "Add" #(add-pin @value)]])))
+       [component/button "Add" #(add-pin @value)
+        :style {:padding-left "2em"}]])))
 
 
 (defn map-body []
