@@ -60,15 +60,15 @@
   (.setTimeout js/window (fn []
                            (when (< @progress 95)
                              (progress-stuff (+ 1 step-number))
-                             (reset! progress (+ @progress (nth progress-steps step-number))))) (* 200 (+ 1 step-number))))
+                             (reset! progress (+ @progress (nth progress-steps step-number))))) (* 2000 (+ 1 step-number))))
 
 (defn success! [url]
   (reset! progress 100)
   (reset! new-site-address url))
 
-(defn long-poll-for-url [url]
-  (go (let [response (<! (http/get url
-                           {:with-credentials? false}))
+(defn long-poll-for-url [{:keys [name url] :as req}]
+  (go (let [response (<! (http/post "/up" {:transit-params {:name name
+                                                            :url url}}))
             status (:status response)]
         (if (= 404 status)
           (.setTimeout js/window (fn [e]
@@ -76,18 +76,22 @@
                                          next-fibonacci (+ x y)]
                                      (swap! fibonacci #(conj % next-fibonacci))
                                      (println @fibonacci)
-                                     (long-poll-for-url url)))
-            (* (last @fibonacci) 300))
+                                     (long-poll-for-url req)))
+            (* (last @fibonacci) 100))
           (success! url)))))
 
 (defn create-button [domain language selected-theme]
   [c/button "Create"
    (fn [e]
      (reset! create-network-state :generating-network)
-     (if-let [{:keys [url]} (controller/valid-domain? @domain @language @selected-theme)]
-       (long-poll-for-url url)
-       (println "FAILED"))
-     (.setTimeout js/window #(progress-stuff 0) 1000))
+     (controller/valid-domain? @domain 
+                               @language 
+                               @selected-theme
+                               (fn [res]
+                                 (js/setTimeout #(long-poll-for-url res)
+                                                60000))
+                               #(.error js/console %))
+     (js/setTimeout #(progress-stuff 0) 1000))
    :style {:width "100%"}])
 
 (defn create-network-dom [domain language selected-theme]
@@ -97,7 +101,7 @@
    [select-language-dom language]
    [select-theme-dom selected-theme]
    [:div.fixed.bottom-0.right-0.left-0.m2
-     [create-button domain language selected-theme]]])
+    [create-button domain language selected-theme]]])
 
 (defn generating-network-dom []
   (let [copied? (r/atom false)]
@@ -108,16 +112,16 @@
         [:div.bg-pri {:style {:width (str @progress "%")
                               :height "20px"
                               :transition "width .3s"}}]]
-       (when true #_(>= @progress 100)
+       (when (>= @progress 100)
          [:div
           [:h3.sec.py3 "Here's the address of your new site:"]
           [:input#newthing.center.p1 {:style {:width "100%"
-                               :font-size "24px"
-                               :border 0
-                               :background :transparent
-                               :border-bottom "2px solid black"}
-                       :type "text"
-                       :default-value @new-site-address}]
+                                              :font-size "24px"
+                                              :border 0
+                                              :background :transparent
+                                              :border-bottom "2px solid black"}
+                                      :type "text"
+                                      :default-value @new-site-address}]
           [:div.center.p2
            [c/button (if @copied? "Copied!" "Copy")
             (fn [e]
@@ -129,7 +133,7 @@
 
 (defn create-network-body []
   (let [domain (r/atom "")
-        language (r/atom nil)
+        language (r/atom "English")
         selected-theme (r/atom nil)]
     (fn []
       (case @create-network-state

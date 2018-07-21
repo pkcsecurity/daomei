@@ -6,7 +6,8 @@
             [daomei.clj.sh :as sh]
             [hiccup.core :as html]
             [cognitect.transit :as edn]
-            [ring.middleware.format :as fmt]))
+            [ring.middleware.format :as fmt]
+            [clj-http.client :as client]))
 
 (defn index-response-fn [_]
   {:status 200 
@@ -21,9 +22,18 @@
        :body name-and-url}
       {:status 400})))
 
+(defn up-fn [{{:keys [url name]} :params :as req}]
+  (println req)
+  (let [{:keys [status]} (client/get url)]
+    {:status status
+     :body {:url url
+            :name name
+            :status status}}))
+
 (r/defroutes routes
   (r/GET "/" [] index-response-fn)
   (r/POST "/application" [] start-app-fn)
+  (r/POST "/up" [] up-fn)
   (route/resources "/")
   (route/not-found nil))
 
