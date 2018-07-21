@@ -2,14 +2,19 @@
   (:require [cljs-http.client :as http]
             [cljs.core.async :as chan]))
 
-(defn valid-domain? [domain]
+(defn valid-domain? [domain language selected-theme]
   (chan/go
-    (.log js/console
-          (get-in 
-            (chan/<!
-              (http/post "/domain/valid"
-                         {:transit-params {:domain domain}}))
-            [:body :valid?]))))
+    (let [response (chan/<! (http/post "/application"
+                              {:transit-params {:domain domain
+                                                :language language
+                                                :selected-theme selected-theme}}))
+          valid? (get-in response [:body :valid?])]
+      (case (:status response)
+        409 (println "409")
+        404 (println "404")
+        200 (when valid?
+              (:body response))
+        nil))))
 
 (defn get-style [on-success]
   (chan/go 

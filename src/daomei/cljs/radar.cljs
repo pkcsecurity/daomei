@@ -52,7 +52,7 @@
                      :backdropColor "#fff"}
              :angleLines {:color "#aaa"}
              :pointLabels {:fontFamily "'Heiti SC'"
-                           :fontSize 16
+                           :fontSize 12
                            :fontColor "#333"}}
      :legend {:position "bottom"
               :labels {:fontSize 8}}}))
@@ -65,10 +65,10 @@
          (js/Chart. ctx
                     (clj->js
                       {:type "radar"
-                       :options radar-options 
+                       :options radar-options
                        :data {:labels twelve-labels
                               :datasets (clj->js data)}}))))
 
      :reagent-render
      (fn [data]
-       [:canvas])}))
+       [:canvas {:style {:height "300px" :width "300px"}}])}))
