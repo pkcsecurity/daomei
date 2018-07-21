@@ -13,11 +13,6 @@
    :headers {"Content-Type" "text/html"}
    :body index/index})
 
-(defn validate-domain-fn [{{:keys [domain]} :params}]
-  {:status (if (sh/domain-available? domain) 
-             200 
-             409)})
-
 (defn start-app-fn [{{:keys [domain language selected-theme]} :params}]
   (if-not (sh/domain-available? domain)
     {:status 409}
@@ -28,7 +23,6 @@
 
 (r/defroutes routes
   (r/GET "/" [] index-response-fn)
-  (r/POST "/domain/valid" [] validate-domain-fn)
   (r/POST "/application" [] start-app-fn)
   (route/resources "/")
   (route/not-found nil))
