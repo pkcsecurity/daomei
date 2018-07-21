@@ -9,7 +9,7 @@
                                  :lao-fu-zi (r/atom true)
                                  :zhu-ge-liang (r/atom true)})
 
-(def leader-names ["Lao Zhi" "Lao Fu Zi" "Zhu Ge Liang"])
+(def leader-names (r/atom ["Lao Zhi" "Lao Fu Zi" "Zhu Ge Liang"]))
 
 (def selected-profile (r/atom nil))
 
