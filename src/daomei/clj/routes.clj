@@ -29,7 +29,13 @@
             :name name
             :status status}}))
 
-(defonce points (atom []))
+(defonce points (atom [{:lat 39.9042 :lng 116.4074}
+                       {:lat 35.7448 :lng 96.4077}
+                       {:lat 31.4912 :lng 120.3119}
+                       {:lat 47.3499 :lng 130.2980}
+                       {:lat 30.5728 :lng 104.0668}
+                       {:lat 35.5810 :lng 116.9865}
+                       {:lat 22.3964 :lng 114.1095}]))
 
 (defn point-fn [{p :params}]
   (swap! points conj p)

@@ -25,7 +25,11 @@
     {:on-click (fn [e]
                  (println "yo")
                  (swap! show-menu? not))}
-    [:i.fa.fa-bars.fa-lg.white]]])
+    [:i.fa.fa-bars.fa-lg.white]]
+   [:img {:src "12_nav.png"
+          :height "40px"
+          :on-click #(reset! model/page-state :admin-statistics)}]
+   [:div {:style {:width "20px"}}]])
 
 (defn home-body [radar-data]
   [:div.max-width-4.mx-auto
@@ -59,14 +63,14 @@
       [:div
        [nav-body]
        (when @show-menu? [menu-body])
-       [:div.pt3.px3
+       [:div
         (case @model/page-state
-          :home [home-body radar-data]
-          :admin-statistics [admin/admin-statistics-body]
-          :create-network [create-network/create-network-body]
-          :map [map/map-body]
-          :manage [manage/manage-body]
-          :user-profile [manage/user-profile-body]
+          :home [:div.pt3.px3 [home-body radar-data]]
+          :admin-statistics [:div.pt3.px3[admin/admin-statistics-body]]
+          :create-network [:div.pt3.px3 [create-network/create-network-body]]
+          :map [:div.pt3 [map/map-body]]
+          :manage [:div.pt3.px3 [manage/manage-body]]
+          :user-profile  [:div.pt3.px3[manage/user-profile-body]]
           [home-body])]])))
 
 (defn -main []

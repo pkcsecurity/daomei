@@ -34,12 +34,17 @@
      (fn []
        [:div
         {:style {:width "100%"
-                 :height "400px"
+                 :height "550px"
                  :background-color :gray}}])}))
 
 (defn ^:export init-map [])
 
 (defn map-body []
   [:div
-    [component/body-title "See all your people"]
-    [google-map]])
+    [:div.p2 [component/body-title "See all churches in your network"]]
+    [google-map]
+   #_[:div.flex.justify-around.items-center.p1
+    [:i.fa.fa-2x.fa-fast-forward.sec]
+    [:i.fa.fa-2x.fa-fast-forward.sec]
+    [:i.fa.fa-2x.fa-fast-forward.sec]
+    [:i.fa.fa-2x.fa-fast-forward.sec]]])
