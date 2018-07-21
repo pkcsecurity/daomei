@@ -33,6 +33,6 @@
 
 (def selected-profile (r/atom nil))
 
-(def page-state (r/atom :admin-statistics))
+(def page-state (r/atom :manage))
 
 (def points (r/atom [{:lat "39.9042" :long "116.407396"}]))
