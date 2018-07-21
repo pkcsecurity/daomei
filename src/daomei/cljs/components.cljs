@@ -1,9 +1,20 @@
 (ns daomei.cljs.components
   (:require [reagent.core :as r]
-            [daomei.cljs.utils :as utils]))
+            [daomei.cljs.model :as m]
+            [daomei.cljs.utils :as utils]
+            [camel-snake-kebab.core :as csk-core]))
 
 (defn body-title [title]
-  [:h4.sec.pb3 title])
+  [:h3.sec.pb3 title])
+
+(defn leader [leader-name]
+  [:div.flex.items-center.pb3.sec {:on-click (fn [e]
+                                               (reset! m/selected-profile (keyword (csk-core/->kebab-case leader-name)))
+                                               (reset! m/page-state :user-profile))}
+   [:i.fa.fa-user-circle-o.fa-2x.px2]
+   [:div.flex.flex-column.justify-between
+    [:h5.pb1 leader-name]
+    [:h6.gray {:style {:font-weight 400}} leader-name]]])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Button component
