@@ -15,12 +15,10 @@
    :body index/index})
 
 (defn start-app-fn [{{:keys [domain language selected-theme]} :params}]
-  (if-not (sh/domain-available? domain)
-    {:status 409}
-    (if-let [name-and-url (sh/create-instance language selected-theme)]
-      {:status 200
-       :body name-and-url}
-      {:status 400})))
+  (if-let [name-and-url (sh/create-instance language selected-theme)]
+    {:status 200
+     :body name-and-url}
+    {:status 400}))
 
 (defn up-fn [{{:keys [url name]} :params :as req}]
   (let [{:keys [status]} (client/get url)]
